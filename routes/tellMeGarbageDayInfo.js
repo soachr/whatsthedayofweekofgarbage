@@ -2,26 +2,43 @@ var express = require('express');
 var router = express.Router();
 
 
-/* サンプルAPI② 
- * http://localhost:3000/samples/hello にGETメソッドのリクエストを投げると、
- * JSON形式で文字列を返す。
- */
 router.get('/', function(req, res, next) {
   var today = new Date();
   var dayOfWeek = today.getDay();
+  var dayOfWeekStr = [ "日", "月", "火", "水", "木", "金", "土" ][dayOfWeek] ;
 
-  switch(dayOfWeek) {
-    case 0:
-      var param = {"result":"ゴミ出しはない。ゆっくりすごすんやで。"};
-      break;
-    case 1:
-      var param = {"result":"月曜日やからペットボトルと瓶と缶をだすんやで"};
-      break;
-    case 6:
-      var param = {"result":"土曜日やから燃えるゴミ、絶対だすんやでくさなるし"};
-      break;
-    default:
-      var param = {"result":"except Sun."};
+  var param = {
+      "uid": "00000001",
+      "updateDate": "2018-09-08T00:00:00.0Z",
+      };
+
+  if(10 < today.getHours()) {
+      message = dayOfWeekStr + "後の祭りや";
+      param.titleText = message;
+      param.mainText = message;
+  } else {
+    switch(dayOfWeekStr) {
+      case "月":
+        message = dayOfWeekStr + "曜日やから、ペットボトルと瓶と缶をだすんやで。";
+        param.titleText = message;
+        param.mainText = message;
+        break;
+      case "火":
+        message = dayOfWeekStr + "曜日やから、ダンボールをだすんやで。";
+        param.titleText = message;
+        param.mainText = message;
+        break;
+      case "水":
+      case "土":
+        message = dayOfWeekStr + "曜日やから、燃えるゴミ、燃えるゴミやで。絶対だすんやで。";
+        param.titleText = message;
+        param.mainText = message;
+        break;
+      default:
+        message = dayOfWeekStr + "ゴミ出しはない。ゆっくりすごすんやで。";
+        param.titleText = message;
+        param.mainText = message;
+    }
   }
 
   res.header('Content-Type', 'application/json; charset=utf-8')
