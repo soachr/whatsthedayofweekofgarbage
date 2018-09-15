@@ -13,7 +13,7 @@ router.get('/', function(req, res, next) {
       };
 
   if(10 < today.getHours()) {
-      message = dayOfWeekStr + "後の祭りや";
+      message = "後の祭りや";
       param.titleText = message;
       param.mainText = message;
   } else {
