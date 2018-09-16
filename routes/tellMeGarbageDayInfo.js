@@ -1,4 +1,5 @@
 var express = require('express');
+var moment = require('moment');
 var router = express.Router();
 
 
@@ -6,10 +7,11 @@ router.get('/', function(req, res, next) {
   var today = new Date();
   var dayOfWeek = today.getDay();
   var dayOfWeekStr = [ "日", "月", "火", "水", "木", "金", "土" ][dayOfWeek] ;
+  var todayMoment = moment(today);
 
   var param = {
       "uid": "00000001",
-      "updateDate": "2018-09-08T00:00:00.0Z",
+      "updateDate": todayMoment.format('YYYY-MM-DD[T]HH:mm:ss[.0Z]'),
       };
 
   if(10 < today.getHours()) {
